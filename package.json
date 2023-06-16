@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "This is a robust backend to power the client of our chatapp",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
   "author": "ashar.2day",
   "license": "ISC",
   "dependencies": {
@@ -11,8 +15,7 @@
     "express": "^4.18.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.0",
-    "mongodb": "^5.6.0",
-    "mongoose": "^7.3.0",
+    "mongoose": "^6.11.1",
     "nodemon": "^2.0.22",
     "pubnub": "^7.2.2",
     "pusher": "^5.1.3"
