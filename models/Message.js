@@ -24,5 +24,8 @@ const messageSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('message',messageSchema)
+const Message = mongoose.model('message',messageSchema)
+Message.createIndexes()
+
+module.exports= Message
 

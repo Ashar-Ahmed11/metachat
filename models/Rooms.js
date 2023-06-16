@@ -14,5 +14,8 @@ const roomSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('room',roomSchema)
+const Rooms = mongoose.model('rooms',roomSchema)
+Rooms.createIndexes()
+
+module.exports= Rooms
 
