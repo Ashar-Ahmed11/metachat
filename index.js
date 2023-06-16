@@ -1,14 +1,7 @@
 
 const express = require('express')
-// const connectToMongo = require('./db/connectmongo')
-// connectToMongo()
-const mongoose = require('mongoose')
-const connectMongo =async()=>{
-   await mongoose.connect('mongodb+srv://asharahmed:ILOVEcars123@metachat.upily0h.mongodb.net/chatapp')
-  console.log('Connected To MongoDb')
-  }
-connectMongo()
-
+const connectToMongo = require('./db/connectmongo')
+connectToMongo()
 const app = express()
 const port = process.env.PORT || 4000
 
