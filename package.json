@@ -4,7 +4,8 @@
   "description": "This is a robust backend to power the client of our chatapp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
   },
   "author": "ashar.2day",
   "license": "ISC",
