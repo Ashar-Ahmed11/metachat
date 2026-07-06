@@ -37,7 +37,7 @@ const pubnub = new PubNub({
 
 
             
-           
+           console.log(req.params.roomid)
                 await pubnub.publish({
                   channel:req.params.roomid,
                   message,
@@ -48,36 +48,36 @@ const pubnub = new PubNub({
 
               
            
-                    const url = `https://fcm.googleapis.com/fcm/send`
-                    const response = await fetch(url, {
-                      method: "POST", // *GET, POST, PUT, DELETE, etc.
-                      mode: "cors", // no-cors, *cors, same-origin
-                      headers: {
-                        "Content-Type": "application/json",
-                        "Authorization":'key=AAAAa5-C_yU:APA91bEtnHIsdYbxk8qAK3rtUOufu33nXN5z5qY3jP9_DevnslKhIhJ1Iv_6RGBxZOYF4ky3-o73HDIZ78MUFQqCD60pMIhBaRsHSplHJTdhr_eaHZ25hEi60Wl3BMnH8BElihTz1Bhc'
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body:JSON.stringify({
-                        to:recieverData.notificationId ,
+                    // const url = `https://fcm.googleapis.com/fcm/send`
+                    // const response = await fetch(url, {
+                    //   method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    //   mode: "cors", // no-cors, *cors, same-origin
+                    //   headers: {
+                    //     "Content-Type": "application/json",
+                    //     "Authorization":'key=AAAAa5-C_yU:APA91bEtnHIsdYbxk8qAK3rtUOufu33nXN5z5qY3jP9_DevnslKhIhJ1Iv_6RGBxZOYF4ky3-o73HDIZ78MUFQqCD60pMIhBaRsHSplHJTdhr_eaHZ25hEi60Wl3BMnH8BElihTz1Bhc'
+                    //     // 'Content-Type': 'application/x-www-form-urlencoded',
+                    //   },
+                    //   body:JSON.stringify({
+                    //     to:recieverData.notificationId ,
                     
                     
-                        notification: {
-                            title:recieverData.fullname,
-                            body: req.body.content,
-                            image: "https://icones.pro/wp-content/uploads/2021/05/symbole-chat-violet.png"
-                        },
-                        data: {
-                            title:recieverData.fullname,
-                            body: req.body.content,
-                            image: "https://icones.pro/wp-content/uploads/2021/05/symbole-chat-violet.png"
-                        }
-                    }
-                    ),
-                      redirect: "follow", // manual, *follow, error
-                      referrerPolicy: "no-referrer"
-                    });
-                    const token = await response.json();
-                    console.log(token)
+                    //     notification: {
+                    //         title:recieverData.fullname,
+                    //         body: req.body.content,
+                    //         image: "https://icones.pro/wp-content/uploads/2021/05/symbole-chat-violet.png"
+                    //     },
+                    //     data: {
+                    //         title:recieverData.fullname,
+                    //         body: req.body.content,
+                    //         image: "https://icones.pro/wp-content/uploads/2021/05/symbole-chat-violet.png"
+                    //     }
+                    // }
+                    // ),
+                    //   redirect: "follow", // manual, *follow, error
+                    //   referrerPolicy: "no-referrer"
+                    // });
+                    // const token = await response.json();
+                    // console.log(token)
                 
  
         res.send(message)
@@ -90,8 +90,18 @@ const pubnub = new PubNub({
 
 router.delete('/deletemessage/:id',fetchUser,async(req,res)=>{
     try {
-        
+        const pubnub = new PubNub({
+    publishKey: "pub-c-e5c44449-a3cf-4996-a063-f7285380f338",
+    subscribeKey: "sub-c-bda7266f-a825-4795-8563-c2837f58e4e1",
+    userId: req.params.id,
+  });
         const deletedMessage = await Message.findByIdAndDelete(req.params.id)
+        // console.log(deletedMessage);
+        
+               await pubnub.publish({
+                  channel:deletedMessage.roomId,
+                  message:deletedMessage.content,
+                });
         res.send(deletedMessage)
     } catch (error) {
         console.error(error.message)
@@ -100,8 +110,16 @@ router.delete('/deletemessage/:id',fetchUser,async(req,res)=>{
 })
 router.put('/editmessage/:id',fetchUser,async(req,res)=>{
     try {
-        
+        const pubnub = new PubNub({
+    publishKey: "pub-c-e5c44449-a3cf-4996-a063-f7285380f338",
+    subscribeKey: "sub-c-bda7266f-a825-4795-8563-c2837f58e4e1",
+    userId: req.params.id,
+  });
         const editedMessage = await Message.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+         await pubnub.publish({
+                  channel:editedMessage.roomId,
+                 message:editedMessage.content,
+                });
         res.send(editedMessage)
     } catch (error) {
         console.error(error.message)

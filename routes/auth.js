@@ -76,16 +76,16 @@ router.get('/getuser', fetchUser, async (req, res) => {
 //     res.send(room)
 // })
 
-router.put('/notificationcontroller/:tokenId',fetchUser,async(req,res)=>{
-    try {
-        const addToken = await User.findByIdAndUpdate(req.user.id,{$set:{notificationId:req.params.tokenId}},{new:true})
-        res.send(addToken)
+// router.put('/notificationcontroller/:tokenId',fetchUser,async(req,res)=>{
+//     try {
+//         const addToken = await User.findByIdAndUpdate(req.user.id,{$set:{notificationId:req.params.tokenId}},{new:true})
+//         res.send(addToken)
 
 
         
-    } catch (error) {
-        console.error(error.message)
-        res.status(500).send('Some Internal Server Error')
-    }
-})
+//     } catch (error) {
+//         console.error(error.message)
+//         res.status(500).send('Some Internal Server Error')
+//     }
+// })
 module.exports = router
